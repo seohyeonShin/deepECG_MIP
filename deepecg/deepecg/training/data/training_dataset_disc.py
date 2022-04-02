@@ -73,7 +73,8 @@ class TrainingDB(object):
 
             # Get test size
             test_size = self.datasets['test'] / (self.datasets['val'] + self.datasets['test'])
-
+            print('test_size : {}'.format(test_size))
+            print('evaluate : {}'.format(evaluate))
             # Split evaluate into val/test
             _, _, val, test = train_test_split(evaluate, evaluate, test_size=test_size,
                                                stratify=evaluate['label'], random_state=0)
@@ -84,7 +85,7 @@ class TrainingDB(object):
                                                 stratify=labels['label'], random_state=0)
 
         # Add to dataset split to labels DataFrame
-        self._add_dataset_labels(train_index=train.index, val_index=val.index, test_index=[])
+        self._add_dataset_labels(train_index=train.index, val_index=val.index,  test_index=test.index)#test_index=[])
 
     def _add_dataset_labels(self, train_index, val_index, test_index):
         """Add to dataset split to labels DataFrame."""
@@ -101,9 +102,10 @@ class TrainingDB(object):
 
     def _process_waveform(self, idx):
         """Process a single waveform and add to training dataset."""
+        print('_process_waveform idx : {}'.format(idx))
         # Get file name
         file_name = self.labels.loc[idx, 'file_name']
-
+        print('file_name : {}'.format(file_name))
         # Get dataset
         dataset = self.labels.loc[idx, 'dataset']
 
@@ -181,9 +183,11 @@ class TrainingDB(object):
 
     def generate(self):
         """Generate training dataset."""
+        print('self.labels.index range : {}'.format(len(self.labels.index)))
+        
         outputs = Parallel(n_jobs=-1)(delayed(self._process_waveform)(idx)
                                       for idx in self.labels.index)
-
+        print('finish generate process wave form')
         # Save labels
         self._save_labels(outputs=outputs)
 
@@ -194,6 +198,7 @@ class TrainingDB(object):
 
     def _save_labels(self, outputs):
         """Save labels as JSON."""
+        print('Save labels as JSON.')
         # Empty dicts for labels
         labels = {'train': {}, 'val': {}, 'test': {}}
 
