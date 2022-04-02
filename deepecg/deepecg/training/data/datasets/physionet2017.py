@@ -52,7 +52,7 @@ class Physionet2017DB(object):
         """Generate the raw version of the Physionet2017 database in the 'raw' folder."""
         print('Generating Raw Physionet2017 Database ...')
         # Download the database
-        self._download_db()
+        #self._download_db()
 
         # Unzip the database
         self._unzip_db()
@@ -109,6 +109,7 @@ class Physionet2017DB(object):
     def _unzip_db(self):
         """Unzip the raw db zip file."""
         print('Unzipping database ...')
+        print('self.zip_file_path : {}'.format(self.zip_file_path))
         with zipfile.ZipFile(self.zip_file_path, 'r') as zip_ref:
             zip_ref.extractall(self.raw_path)
 
@@ -130,7 +131,7 @@ class Physionet2017DB(object):
         shutil.rmtree(self.extract_path)
 
         # Remove zip file
-        os.remove(self.zip_file_path)
+        #os.remove(self.zip_file_path)
 
     def _resample_waveform(self, waveform, fs):
         """Resample training sample to set sample frequency."""
