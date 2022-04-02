@@ -133,7 +133,8 @@ class Graph(object):
         """Build the portion of the graph that computes logits, loss, and gradients."""
         if self.gpu_count <= 1:
             # Sequential graph
-            self._build_sequential_forward_graph()
+            #self._build_sequential_forward_graph()
+            self._build_parallel_forward_graph()
 
         elif self.gpu_count > 1:
             # Parallel graph
