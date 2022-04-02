@@ -150,7 +150,7 @@ def plot_class_activation_map_template(model, index, time_series, labels, fs):
     ax4.set_ylim([np.median(cam_templates, axis=1).min()-0.02, np.median(cam_templates, axis=1).max()+0.02])
 
     plt.savefig(
-        r'C:\Users\sgoodfellow\Documents\Sebastian\Sick Kids\Publications\Conference\mlforhc\2018\Draft\template.eps')
+        r'D:\GIT\deepECG_MIP\deepecg\fig\template.eps')
 
     plt.show()
 
